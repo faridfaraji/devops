@@ -25,7 +25,8 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    platform: linux/arm64
     hostname: elasticsearch
     container_name: elasticsearch
     environment:
@@ -35,6 +36,7 @@ services:
 
   neo4j:
     image: neo4j:4.2.3
+    platform: linux/x86_64/v8
     ports:
       - "7474:7474"
       - "7687:7687"
@@ -54,5 +56,4 @@ services:
       dockerfile: Dockerfile-consumer
     depends_on:
       - kafka
-      - elasticsearch
       - neo4j

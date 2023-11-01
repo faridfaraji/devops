@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-app
+  template:
+    metadata:
+      labels:
+        app: consumer-app
+    spec:
+      containers:
+        - name: consumer-app
+          image: gcr.io/centered-center-399418/consumer-app:v1
+          # Define any ports, environment variables, etc., as needed.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consumer-app
+spec:
+  type: ClusterIP
+  ports:
+    - name: http # This is an arbitrary name for the service port
+      port: 8080 # This is the port that the service will expose
+      targetPort: 8080 # This is the port on the container that the service routes to
+
+  # Define any ports as needed.
+  selector:
+    app: consumer-app

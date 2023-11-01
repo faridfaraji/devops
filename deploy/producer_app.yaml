@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-app
+  template:
+    metadata:
+      labels:
+        app: producer-app
+    spec:
+      containers:
+        - name: producer-app
+          image: gcr.io/centered-center-399418/producer-app:latest
+          # Define any ports, environment variables, etc., as needed.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-app
+spec:
+  type: ClusterIP
+  # Define any ports as needed.
+  ports:
+    - name: http # This is an arbitrary name for the service port
+      port: 8080 # This is the port that the service will expose
+      targetPort: 8080 # This is the port on the container that the service routes to
+  selector:
+    app: producer-app
